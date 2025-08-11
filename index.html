@@ -1,320 +1,580 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkle, BarChart3, Layers, Beaker, CheckCircle2, CircleX, Rocket } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Playbook Media — Where Brand Building Meets Performance Marketing</title>
+  <meta name="description" content="Playbook Media is a boutique performance branding agency for growth-stage SaaS and FinTech teams. We build distinctive brands through measurable performance." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================================
+       Playbook Media — Performance Branding Homepage
+       Palette: --ink #172238, --steel #4C657C, --mist #BCC9D5, --accent #FF5001
+       Type: Libre Baskerville (headings), Proxima Nova/Inter (body)
+       ========================================================= */
 
-/**
- * Playbook Media — Boutique Performance Branding Agency
- * One-file, production-ready landing page built for SaaS & FinTech appeal.
- * Tailwind required. shadcn/ui and lucide-react available per project template.
- */
+    :root{
+      /* Brand Colors */
+      --ink:#172238;
+      --steel:#4C657C;
+      --mist:#BCC9D5;
+      --accent:#FF5001;
 
-// ---- Theme ----
-const brand = {
-  navy: "#172238",
-  steel: "#4C657C",
-  mist: "#BCC9D5",
-  orange: "#FF5001",
-};
+      /* Neutrals + surfaces */
+      --bg:#F6F8FC;
+      --card:#ffffff;
+      --ink-80:rgba(23,34,56,.8);
+      --ink-60:rgba(23,34,56,.6);
+      --ink-10:rgba(23,34,56,.1);
 
-// ---- Motion presets ----
-const container = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
+      /* Typography */
+      --font-serif:"Libre Baskerville", "LibreBaskerville", Georgia, "Times New Roman", serif;
+      --font-sans:"Proxima Nova", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji", sans-serif;
 
-// ---- Content (extracted for DRY & i18n/CMS friendliness) ----
-const MYTHS = [
-  "× Brand building and performance marketing need separate budgets",
-  "× You have to choose between creativity and conversion",
-  "× Brand impact can't be measured",
-  "× Performance creative should be generic to maximize relevance",
-];
+      /* Sizing */
+      --radius:14px;
+      --radius-sm:10px;
+      --container:1200px;
 
-const PROBLEMS = [
-  {
-    title: "The Performance Trap",
-    body:
-      "You're optimizing for immediate conversions but destroying brand equity in the process. Your creative gets cheaper, your messaging gets more generic, and your CAC keeps climbing because you have no brand differentiation.",
-    icon: <BarChart3 className="w-5 h-5 text-white" aria-hidden="true" />,
-  },
-  {
-    title: "The Brand Delusion",
-    body:
-      "You're spending big on 'brand awareness' campaigns that look beautiful but can't prove business impact. Your CMO talks about long-term brand building while your CEO demands immediate ROI.",
-    icon: <Layers className="w-5 h-5 text-white" aria-hidden="true" />,
-  },
-  {
-    title: "The Attribution Excuse",
-    body:
-      "You've accepted that brand impact is 'unmeasurable,' so you default to bottom-funnel tactics that get more expensive every quarter as competitors crowd the same conversion-focused channels.",
-    icon: <Beaker className="w-5 h-5 text-white" aria-hidden="true" />,
-  },
-  {
-    title: "The Creative Compromise",
-    body:
-      "Your performance creative is optimized for clicks but builds no brand memory. Your brand creative is memorable but drives no immediate action. You're running two separate strategies that aren’t in sync.",
-    icon: <Sparkle className="w-5 h-5 text-white" aria-hidden="true" />,
-  },
-] as const;
+      /* Type scale with fluid clamp */
+      --step--1: clamp(0.875rem, 0.83rem + 0.2vw, 0.975rem);
+      --step-0:  clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
+      --step-1:  clamp(1.125rem, 1.05rem + 0.45vw, 1.25rem);
+      --step-2:  clamp(1.35rem, 1.2rem + 0.9vw, 1.6rem);
+      --step-3:  clamp(1.75rem, 1.4rem + 1.6vw, 2.2rem);
+      --step-4:  clamp(2.35rem, 1.9rem + 2.2vw, 3rem);
+      --step-5:  clamp(3rem, 2.4rem + 3vw, 3.8rem);
+    }
 
-const FEATURES = [
-  {
-    title: "Brand–Performance Attribution",
-    body: "Track how brand recognition drives performance improvements across all channels.",
-    icon: <Beaker className="w-5 h-5 text-[var(--pm-orange)]" aria-hidden="true" />,
-  },
-  {
-    title: "Creative That Compounds",
-    body: "Brand-distinctive creative that drives conversions while building customer lifetime value.",
-    icon: <Sparkle className="w-5 h-5 text-[var(--pm-orange)]" aria-hidden="true" />,
-  },
-  {
-    title: "Competitive Advantage That Scales",
-    body: "Build brand differentiation that makes your performance marketing more effective over time.",
-    icon: <Rocket className="w-5 h-5 text-[var(--pm-orange)]" aria-hidden="true" />,
-  },
-] as const;
+    /* Global reset-ish */
+    *,*::before,*::after{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; color-scheme:light; }
+    body{
+      margin:0;
+      font-family:var(--font-sans);
+      font-size:var(--step-0);
+      line-height:1.6;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 85% -10%, rgba(76,101,124,.10), transparent 55%),
+        linear-gradient(180deg, #ffffff, var(--bg) 60%);
+    }
+    img{ max-width:100%; height:auto; }
+    a{ color:inherit; }
+    .container{ width:min(100%, var(--container)); margin-inline:auto; padding-inline:24px; }
 
-const FUTURES = [
-  {
-    title: "Master performance branding",
-    body:
-      "Build an unfair competitive advantage that compounds over time, making marketing more effective and efficient every quarter.",
-  },
-  {
-    title: "Plateau while others win",
-    body: "Competitors with stronger brand-assets siphon demand and drive down your efficiency.",
-  },
-  {
-    title: "Waste budget on campaigns that don't scale",
-    body: "Short-term tactics without brand memory get more expensive every quarter.",
-  },
-] as const;
+    /* Skip link */
+    .skip-link{
+      position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+    }
+    .skip-link:focus{
+      position:fixed; left:16px; top:16px; width:auto; height:auto; padding:.6rem .9rem;
+      background:#fff; color:var(--ink); border-radius:8px; z-index:9999; box-shadow:0 8px 20px rgba(23,34,56,.15);
+    }
 
-// ---- Layout primitives ----
-const Section: React.FC<React.PropsWithChildren<{ id?: string; className?: string }>> = ({ id, className, children }) => (
-  <section id={id} className={`relative w-full ${className || ""}`}>{children}</section>
-);
+    /* Header / Nav */
+    header{
+      position:sticky; top:0; z-index:1000; backdrop-filter:saturate(140%) blur(8px);
+      background:linear-gradient(180deg, rgba(246,248,252,.86), rgba(246,248,252,.66));
+      border-bottom:1px solid rgba(23,34,56,.06);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; text-decoration:none;
+    }
+    .brand-mark{
+      width:34px; height:34px; border-radius:9px;
+      background: conic-gradient(from 200deg at 60% 40%, var(--accent), #ff7a33 20%, #ff8a4c 32%, #ffa46f 40%, var(--mist) 41%, #e7eef6 60%, #b2c3d4 61%, var(--steel) 78%, var(--ink) 100%);
+      box-shadow: 0 6px 16px rgba(255,80,1,.25), inset 0 0 0 2px rgba(255,255,255,.35);
+    }
+    .brand-name{
+      font-family:var(--font-serif); font-weight:700; letter-spacing:.2px; font-size:1.05rem;
+    }
+    .nav-links{
+      display:flex; gap:28px; align-items:center;
+    }
+    .nav-links a{
+      text-decoration:none; color:var(--ink-80); font-weight:500; font-size:.98rem;
+    }
+    .cta{
+      display:inline-flex; align-items:center; gap:.6ch;
+      padding:.78rem 1rem; border-radius:12px; text-decoration:none; font-weight:600;
+      background:linear-gradient(180deg, var(--accent), #ff6a1d);
+      color:#fff; box-shadow:0 10px 22px rgba(255,80,1,.25), 0 2px 0 rgba(0,0,0,.06) inset;
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+    .cta:hover{ transform:translateY(-1px); box-shadow:0 14px 26px rgba(255,80,1,.3), 0 2px 0 rgba(0,0,0,.06) inset; }
+    .cta.secondary{
+      background:transparent; color:var(--ink);
+      border:1.5px solid var(--ink-10); box-shadow:none;
+    }
+    .cta.secondary:hover{ border-color: rgba(23,34,56,.24); }
 
-// FIX: removed stray '>' that broke type parsing
-const ProblemCard: React.FC<{ title: string; body: string; icon: React.ReactNode }> = React.memo(({ title, body, icon }) => (
-  <Card className="group h-full border-0 bg-white/5 backdrop-blur-md shadow-xl hover:shadow-2xl transition-all rounded-2xl">
-    <CardContent className="p-6">
-      <div className="flex items-start gap-4">
-        <div className="p-3 rounded-xl bg-white/10 group-hover:bg-white/20 transition">{icon}</div>
-        <div>
-          <h3 className="text-white text-lg font-semibold leading-tight">{title}</h3>
-          <p className="mt-2 text-sm text-white/80 leading-relaxed">{body}</p>
-        </div>
-      </div>
-    </CardContent>
-  </Card>
-));
-ProblemCard.displayName = "ProblemCard";
+    /* Hero */
+    .hero{
+      position:relative;
+      padding: clamp(48px, 6vw, 84px) 0;
+      overflow:clip;
+    }
+    .hero-grid{
+      display:grid; align-items:center; gap: clamp(28px, 4vw, 52px);
+      grid-template-columns: 1.1fr 1fr;
+    }
+    @media (max-width: 960px){
+      .hero-grid{ grid-template-columns: 1fr; }
+    }
+    .eyebrow{
+      display:inline-flex; gap:.6ch; align-items:center;
+      font-size:.9rem; font-weight:600; letter-spacing:.3px; text-transform:uppercase; color:var(--steel);
+    }
+    .eyebrow .dot{ width:8px; height:8px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 3px rgba(255,80,1,.15); }
+    h1{
+      font-family:var(--font-serif);
+      font-weight:700; font-size:var(--step-5); line-height:1.1; margin: 10px 0 12px;
+      letter-spacing:-.4px;
+    }
+    .subtitle{
+      font-weight:600; color:var(--steel); font-size:var(--step-1); margin-bottom:10px;
+    }
+    .lead{
+      font-size:var(--step-0); color:var(--ink-80); max-width:60ch; margin-bottom:22px;
+    }
+    .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; }
+    .hero-note{ color:var(--steel); font-size:.92rem; margin-top:10px; }
 
-// FIX: removed stray '>' and memoized
-const FeatureCard: React.FC<{ title: string; body: string; icon: React.ReactNode }> = React.memo(({ title, body, icon }) => (
-  <Card className="h-full border border-white/10 bg-gradient-to-b from-white/10 to-white/5 rounded-2xl">
-    <CardContent className="p-6">
-      <div className="flex items-start gap-4">
-        <div className="p-3 rounded-xl bg-[var(--pm-orange)]/10">{icon}</div>
-        <div>
-          <h3 className="text-white text-lg font-semibold">{title}</h3>
-          <p className="mt-2 text-sm text-white/80 leading-relaxed">{body}</p>
-        </div>
-      </div>
-    </CardContent>
-  </Card>
-));
-FeatureCard.displayName = "FeatureCard";
+    /* Hero visual (SVG chart-ish) */
+    .visual{
+      position:relative; isolation:isolate;
+      border-radius: var(--radius);
+      background: radial-gradient(900px 400px at 80% 0%, rgba(76,101,124,.20), transparent 66%), #0f1726;
+      box-shadow: 0 20px 50px rgba(23,34,56,.25), inset 0 0 0 1px rgba(255,255,255,.04);
+      padding: 14px;
+      min-height: 380px;
+    }
+    .visual::after{
+      /* glossy edge */
+      content:""; position:absolute; inset:0; border-radius:inherit;
+      background: linear-gradient(180deg, rgba(255,255,255,.12), transparent 18%), radial-gradient(800px 300px at 10% 10%, rgba(255,80,1,.15), transparent 50%);
+      pointer-events:none;
+    }
+    .legend{
+      position:absolute; top:16px; right:18px; display:flex; gap:16px; z-index:2;
+      font-size:.85rem; color:#dfe7f1;
+    }
+    .legend span{ display:inline-flex; gap:8px; align-items:center; }
+    .swatch{ width:10px; height:10px; border-radius:999px; }
+    .swatch.brand{ background:#ff7a33; box-shadow:0 0 0 3px rgba(255,122,51,.25); }
+    .swatch.perf{ background:#6fa4ff; box-shadow:0 0 0 3px rgba(111,164,255,.25); }
 
-export default function PlaybookMediaHomepage() {
-  return (
-    <div className="min-h-screen text-white bg-[var(--pm-navy)] relative overflow-hidden">
-      {/* Brand tokens. NOTE: Move to globals (Tailwind theme) in production; inline here for portability. */}
-      <style>{`
-        :root{ --pm-navy:${brand.navy}; --pm-steel:${brand.steel}; --pm-mist:${brand.mist}; --pm-orange:${brand.orange}; }
-        .font-display{ font-family: 'Libre Baskerville', ui-serif, Georgia, serif; }
-        .font-body{ font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji'; }
-      `}</style>
+    .chart{
+      position:absolute; inset:0; padding:20px; z-index:1;
+    }
+    .chart svg{ width:100%; height:100%; display:block; }
+    .chart .grid line{ stroke:rgba(255,255,255,.06); }
+    .chart .axis text{ fill:#9fb0c3; font-size:12px; }
+    .chart .line{
+      fill:none; stroke-width:3;
+      filter: drop-shadow(0 2px 10px rgba(255,80,1,.25));
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      stroke-dasharray:1200;
+      stroke-dashoffset:1200;
+      animation: draw 2.2s ease forwards .3s;
+    }
+    .chart .line.performance{
+      stroke: url(#perfGrad);
+      filter: drop-shadow(0 2px 10px rgba(116,167,255,.25));
+      animation-delay:.45s;
+    }
+    @keyframes draw{ to{ stroke-dashoffset:0; } }
 
-      {/* Ambient visual (lighter on mobile for paint perf) */}
-      <div className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(60%_50%_at_50%_20%,black,transparent)]">
-        <div
-          className="absolute -top-24 -left-24 w-[28rem] h-[28rem] md:w-[38rem] md:h-[38rem] rounded-full blur-xl md:blur-3xl opacity-30"
-          style={{ background: `conic-gradient(from 120deg, ${brand.orange}33, ${brand.steel}66, ${brand.mist}55)` }}
-        />
-        <div
-          className="absolute -bottom-24 -right-24 w-[32rem] h-[32rem] md:w-[42rem] md:h-[42rem] rounded-full blur-xl md:blur-3xl opacity-25"
-          style={{ background: `radial-gradient(circle at 30% 30%, ${brand.orange}55, transparent 70%)` }}
-        />
-      </div>
+    /* Sections */
+    section{ padding: clamp(56px, 7vw, 90px) 0; }
+    .section-title{
+      font-family:var(--font-serif); font-size:var(--step-4); line-height:1.15; margin:0 0 10px;
+    }
+    .section-sub{
+      color:var(--steel); max-width:70ch; margin-bottom: 28px; font-weight:500;
+    }
 
-      {/* NAV */}
-      <nav className="relative z-10 max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[var(--pm-orange)] grid place-items-center shadow-lg">
-            <Sparkle className="w-5 h-5" aria-hidden="true" />
-          </div>
-          <div className="leading-tight">
-            <span className="block font-body text-sm tracking-wide text-white/70">Playbook Media</span>
-            <span className="block font-display text-lg">Performance Branding</span>
-          </div>
-        </div>
-        <div className="hidden md:flex items-center gap-2">
-          <Badge className="bg-white/10 text-white border-white/20">Boutique Agency</Badge>
-          <Badge className="bg-white/10 text-white border-white/20">SaaS & FinTech</Badge>
-        </div>
-        <div className="flex items-center gap-3">
-          {/* Use semantic anchors for navigation */}
-          <Button asChild variant="ghost" className="text-white/80 hover:text-white">
-            <a href="#work">Our Work</a>
-          </Button>
-          <Button asChild className="bg-[var(--pm-orange)] hover:bg-[#e24a03] text-black font-semibold">
-            <a href="#cta">Book a Strategy Call</a>
-          </Button>
-        </div>
+    /* Cards */
+    .cards{
+      display:grid; gap:22px; grid-template-columns: repeat(12, 1fr);
+    }
+    .card{
+      grid-column: span 6;
+      background:var(--card); border-radius: var(--radius);
+      padding:20px 20px 22px;
+      box-shadow: 0 10px 26px rgba(23,34,56,.07);
+      border: 1px solid rgba(23,34,56,.06);
+      position:relative; overflow:hidden;
+    }
+    .card::before{
+      content:""; position:absolute; inset:0 0 auto 0; height:5px;
+      background: linear-gradient(90deg, var(--accent), #ff7a33 40%, #ffc7a8 100%);
+    }
+    .kicker{
+      display:flex; align-items:center; gap:10px; color:var(--steel); font-weight:600; font-size:.95rem;
+      margin-bottom:4px;
+    }
+    .kicker .num{
+      width:28px; height:28px; border-radius:9px; display:inline-grid; place-items:center;
+      background: rgba(255,80,1,.12); color:var(--accent); font-weight:700; font-size:.9rem;
+    }
+    .card h3{
+      font-family:var(--font-serif); font-size:var(--step-2); margin:4px 0 8px; line-height:1.25;
+    }
+    .card p{ color:var(--ink-80); margin:0; }
+
+    @media (max-width: 980px){
+      .card{ grid-column: span 12; }
+    }
+
+    /* Solution / Features */
+    .feature-grid{
+      display:grid; gap:18px; grid-template-columns:repeat(3,1fr);
+    }
+    @media (max-width: 980px){
+      .feature-grid{ grid-template-columns:1fr; }
+    }
+    .feature{
+      background: linear-gradient(180deg, #ffffff, #fbfdff);
+      border:1px solid rgba(23,34,56,.06);
+      border-radius: var(--radius);
+      padding:18px 18px 20px;
+      position:relative;
+      box-shadow: 0 10px 26px rgba(23,34,56,.06);
+    }
+    .feature .icon{
+      width:38px; height:38px; border-radius:10px; display:grid; place-items:center;
+      background: rgba(255,80,1,.12); color:var(--accent); margin-bottom:10px;
+    }
+    .feature h4{
+      font-family:var(--font-serif); font-size: clamp(1.05rem, 1rem + .4vw, 1.35rem);
+      margin:0 0 8px;
+    }
+    .feature p{ margin:0; color:var(--ink-80); }
+
+    /* Myths */
+    .myths{
+      margin-top: 18px; display:flex; flex-wrap:wrap; gap:10px;
+    }
+    .myths .pill{
+      border:1.5px dashed rgba(23,34,56,.18); border-radius:999px; padding:.55rem .75rem;
+      background:#fff; color:var(--ink-80); font-weight:600; font-size:.95rem;
+    }
+
+    /* Futures */
+    .futures{
+      margin-top: 26px; display:grid; gap:14px;
+    }
+    .futures .future{
+      display:grid; grid-template-columns:auto 1fr; align-items:start; gap:12px;
+      background: var(--card); border-radius: var(--radius-sm); padding:14px; border:1px solid rgba(23,34,56,.06);
+    }
+    .futures .badge{
+      width:28px; height:28px; border-radius:8px; display:grid; place-items:center;
+      font-weight:800; color:#fff; background: var(--accent);
+    }
+    .futures .future:nth-child(2) .badge{ background:#889fb6; }
+    .futures .future:nth-child(3) .badge{ background:#b9c7d6; color:#0f1726; }
+
+    /* CTA band */
+    .cta-band{
+      margin-top: 30px;
+      border-radius: calc(var(--radius) + 6px);
+      background:
+        radial-gradient(800px 200px at 90% 10%, rgba(255,80,1,.18), transparent 50%),
+        linear-gradient(135deg, #0f1726, #18253a 60%);
+      color:#e8f1ff;
+      padding:28px;
+      display:grid; gap:14px; align-items:center;
+      border:1px solid rgba(255,255,255,.06); box-shadow: 0 20px 46px rgba(23,34,56,.25);
+    }
+    .cta-band h3{
+      font-family:var(--font-serif); font-size: var(--step-3); margin:0;
+      letter-spacing:.2px; line-height:1.2;
+    }
+    .cta-band p{ margin:0; color:#b9c7d6; }
+    .cta-row{ display:flex; gap:12px; flex-wrap:wrap; }
+
+    /* Footer */
+    footer{
+      padding:36px 0 60px; color:var(--steel);
+    }
+    .footer-grid{
+      display:grid; gap:18px; grid-template-columns:1.2fr .8fr;
+    }
+    @media (max-width: 900px){ .footer-grid{ grid-template-columns:1fr; } }
+    .foot-logo{
+      display:flex; align-items:center; gap:12px; font-family:var(--font-serif); font-weight:700;
+    }
+    .small{ font-size:.92rem; }
+
+    /* Reveal on scroll */
+    .reveal{ opacity:0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
+    .is-visible{ opacity:1; transform:none; }
+
+    /* Reduce motion respect */
+    @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior:auto; }
+      .chart .line{ animation:none; stroke-dashoffset:0; }
+      .reveal{ opacity:1; transform:none; }
+      .cta{ transition:none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- =================== Header =================== -->
+  <header>
+    <div class="container nav" role="navigation" aria-label="Primary">
+      <a class="brand" href="#">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">Playbook Media</span>
+      </a>
+      <nav class="nav-links" aria-label="Site">
+        <a href="#problems">Problems</a>
+        <a href="#solution">Approach</a>
+        <a href="#cta">Get Started</a>
+        <a class="cta secondary" href="mailto:hello@playbookmedia.com" aria-label="Email Playbook Media">Contact</a>
+        <a class="cta" href="#cta" aria-label="Book a strategy call">Get the Playbook</a>
       </nav>
-
-      {/* HERO */}
-      <Section id="hero" className="relative">
-        <div className="max-w-7xl mx-auto px-6 pt-10 pb-24">
-          <motion.div initial="hidden" animate="show" variants={container}>
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80">
-              <span className="inline-flex items-center gap-1"><Sparkle className="w-3.5 h-3.5" aria-hidden="true"/> Boutique, senior-led</span>
-              <span className="opacity-40">•</span>
-              <span>Brand × Performance</span>
-            </div>
-
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.05] mt-6">
-              Where Brand Building Meets <span className="text-[var(--pm-orange)]">Performance Marketing</span>
-            </h1>
-            <p className="font-body text-lg md:text-xl text-white/85 mt-4">Building distinctive brands through measurable performance 💡</p>
-            <p className="font-body text-white/75 mt-4 max-w-3xl">
-              Every ambitious company faces the same false choice: Build a brand or drive performance. We're Playbook Media. We prove that the strongest brands are built through measurable performance—and the best performance comes from distinctive brand equity.
-            </p>
-
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <Button asChild size="lg" className="bg-[var(--pm-orange)] hover:bg-[#e24a03] text-black font-semibold">
-                <a href="#cta">Start Your Growth Sprint <span className="inline-flex"><ArrowRight className="ml-2 w-4 h-4" aria-hidden="true"/></span></a>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
-                <a href="#measurement">See How We Measure Brand Impact</a>
-              </Button>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Hero bottom divider */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-      </Section>
-
-      {/* PROBLEMS */}
-      <Section id="problems" className="py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={container}>
-            <h2 className="font-display text-3xl md:text-4xl">The False Choice Every Growing Company Faces</h2>
-            <p className="font-body text-white/75 mt-3 max-w-3xl">
-              Between "performance that kills the brand" and "brand building that kills performance," most companies get trapped in these beliefs:
-            </p>
-
-            <div className="mt-10 grid md:grid-cols-2 gap-6">
-              {PROBLEMS.map((p, i) => (
-                <ProblemCard key={i} title={p.title} body={p.body} icon={p.icon} />
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </Section>
-
-      {/* SOLUTION */}
-      <Section id="solution" className="py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={container}>
-            <h2 className="font-display text-3xl md:text-4xl">The Performance Branding Breakthrough</h2>
-            <p className="font-body text-white/75 mt-4 max-w-3xl">
-              The breakthrough companies understand a counterintuitive truth: The strongest performance comes from distinctive brand assets, and the most valuable brand equity is built through measurable performance. Every dollar should build both immediate results and long-term competitive advantage.
-            </p>
-
-            <div className="mt-10 grid md:grid-cols-3 gap-6">
-              {FEATURES.map((f, i) => (
-                <FeatureCard key={i} title={f.title} body={f.body} icon={f.icon} />
-              ))}
-            </div>
-
-            {/* Myths We Bust */}
-            <div className="mt-12 rounded-2xl border border-white/10 bg-white/5 p-6">
-              <h3 className="font-display text-2xl">Myths We Bust</h3>
-              <ul className="grid md:grid-cols-2 gap-3 mt-4">
-                {MYTHS.map((myth, i) => (
-                  <li key={i} className="flex items-start gap-2 text-white/85">
-                    <CircleX className="mt-1 w-4 h-4 text-[var(--pm-orange)]" aria-hidden="true" />
-                    <span className="font-body">{myth}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
-        </div>
-      </Section>
-
-      {/* FUTURES / CTA */}
-      <Section id="futures" className="py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={container}>
-            <div className="grid lg:grid-cols-3 gap-6">
-              {FUTURES.map((item, i) => (
-                <Card key={i} className="border border-white/10 bg-white/5 rounded-2xl">
-                  <CardContent className="p-6">
-                    <div className="flex items-start gap-3">
-                      <CheckCircle2 className={`w-5 h-5 ${i === 0 ? 'text-[var(--pm-orange)]' : 'text-white/50'}`} aria-hidden="true" />
-                      <div>
-                        <h4 className="text-white font-semibold">{i + 1}. {item.title}</h4>
-                        <p className="text-white/80 mt-2 text-sm">{item.body}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <div id="cta" className="mt-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 rounded-2xl border border-white/10 bg-gradient-to-r from-white/10 to-white/5 p-6">
-              <div>
-                <h3 className="font-display text-2xl">We help ambitious companies choose option #1.</h3>
-                <p className="font-body text-white/80 mt-2">Ready to join them?</p>
-              </div>
-              <div className="flex gap-3">
-                <Button asChild size="lg" className="bg-[var(--pm-orange)] hover:bg-[#e24a03] text-black font-semibold">
-                  <a href="/contact">Book a Strategy Call <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true"/></a>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
-                  <a href="/playbook">Get the Playbook</a>
-                </Button>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </Section>
-
-      {/* FOOTER */}
-      <footer className="mt-16 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-2 gap-6 items-center">
-          <div className="font-body text-white/70 text-sm">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ background: brand.orange }} />
-              <span>Playbook Media — Performance Marketing That Scales</span>
-            </div>
-            <p>© {new Date().getFullYear()} Playbook Media. All rights reserved.</p>
-          </div>
-          <div className="justify-self-end flex gap-3">
-            <Button asChild variant="outline" className="border-white/20 text-white/80 hover:text-white hover:bg-white/10"><a href="/careers">Careers</a></Button>
-            <Button asChild variant="outline" className="border-white/20 text-white/80 hover:text-white hover:bg-white/10"><a href="/contact">Contact</a></Button>
-          </div>
-        </div>
-      </footer>
     </div>
-  );
-}
+  </header>
+
+  <main id="main">
+    <!-- =================== Hero =================== -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow"><span class="dot" aria-hidden="true"></span> Boutique Performance Branding Agency</div>
+          <h1>Where Brand Building Meets Performance Marketing</h1>
+          <p class="subtitle">Building distinctive brands through measurable performance 💡</p>
+          <p class="lead">Every ambitious company faces the same false choice: Build a brand or drive performance. We're Playbook Media. We prove that the strongest brands are built through measurable performance—and the best performance comes from distinctive brand equity.</p>
+          <div class="hero-actions">
+            <a class="cta" href="#cta">Book a Strategy Call</a>
+            <a class="cta secondary" href="#solution">See How We Work</a>
+          </div>
+          <p class="hero-note">Designed for growth‑stage SaaS &amp; FinTech teams.</p>
+        </div>
+
+        <!-- Visual: overlapping brand/performance lines -->
+        <div class="visual" aria-label="Animated chart showing brand & performance compounding together">
+          <div class="legend">
+            <span><i class="swatch brand" aria-hidden="true"></i> Brand Equity</span>
+            <span><i class="swatch perf" aria-hidden="true"></i> Performance</span>
+          </div>
+          <div class="chart" aria-hidden="true">
+            <svg viewBox="0 0 900 520" role="img" focusable="false">
+              <!-- defs -->
+              <defs>
+                <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#FF5001"/>
+                  <stop offset="60%" stop-color="#ff7a33"/>
+                  <stop offset="100%" stop-color="#ffd1b5"/>
+                </linearGradient>
+                <linearGradient id="perfGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#7FB2F9"/>
+                  <stop offset="60%" stop-color="#6FA4FF"/>
+                  <stop offset="100%" stop-color="#BFD4FF"/>
+                </linearGradient>
+              </defs>
+
+              <!-- grid -->
+              <g class="grid">
+                <line x1="40" y1="460" x2="860" y2="460"/>
+                <line x1="40" y1="360" x2="860" y2="360"/>
+                <line x1="40" y1="260" x2="860" y2="260"/>
+                <line x1="40" y1="160" x2="860" y2="160"/>
+                <line x1="40" y1="60"  x2="860" y2="60"/>
+                <line x1="40" y1="60"  x2="40"  y2="460"/>
+                <line x1="860" y1="60" x2="860" y2="460"/>
+              </g>
+
+              <!-- brand line -->
+              <path class="line brand" stroke="url(#brandGrad)"
+                d="M 40 420
+                   C 120 400, 170 360, 240 340
+                   S 350 310, 420 260
+                   S 530 200, 600 170
+                   S 730 140, 860 120" />
+
+              <!-- performance line -->
+              <path class="line performance"
+                d="M 40 420
+                   C 130 410, 210 380, 260 360
+                   S 360 330, 410 300
+                   S 520 260, 590 200
+                   S 710 150, 860 110" />
+
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================== Problems =================== -->
+    <section id="problems" class="reveal">
+      <div class="container">
+        <h2 class="section-title">The False Choice Every Growing Company Faces</h2>
+        <p class="section-sub">Between “performance that kills the brand” and “brand building that kills performance,” most companies get trapped in these beliefs:</p>
+
+        <div class="cards">
+          <!-- Card 1 -->
+          <article class="card">
+            <div class="kicker"><span class="num">01</span> The Performance Trap</div>
+            <h3>The Performance Trap</h3>
+            <p>You're optimizing for immediate conversions but destroying brand equity in the process. Your creative gets cheaper, your messaging gets more generic, and your CAC keeps climbing because you have no brand differentiation.</p>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="card">
+            <div class="kicker"><span class="num">02</span> The Brand Delusion</div>
+            <h3>The Brand Delusion</h3>
+            <p>You're spending big on “brand awareness” campaigns that look beautiful but can't prove business impact. Your CMO talks about “long‑term brand building” while your CEO demands immediate ROI.</p>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="card">
+            <div class="kicker"><span class="num">03</span> The Attribution Excuse</div>
+            <h3>The Attribution Excuse</h3>
+            <p>You've accepted that brand impact is “unmeasurable,” so you default to bottom‑funnel tactics that get more expensive every quarter as your competitors crowd the same conversion‑focused channels.</p>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="card">
+            <div class="kicker"><span class="num">04</span> The Creative Compromise</div>
+            <h3>The Creative Compromise</h3>
+            <p>Your performance creative is optimized for clicks but builds no brand memory. Your brand creative is memorable but drives no immediate action. You're running two separate marketing strategies that aren’t in sync.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================== Solution =================== -->
+    <section id="solution" class="reveal">
+      <div class="container">
+        <h2 class="section-title">The Performance Branding Breakthrough</h2>
+        <p class="section-sub">The breakthrough companies understand a counterintuitive truth: The strongest performance comes from distinctive brand assets, and the most valuable brand equity is built through measurable performance. Every dollar should build both immediate results and long‑term competitive advantage.</p>
+
+        <div class="feature-grid">
+          <div class="feature">
+            <div class="icon" aria-hidden="true">
+              <!-- trend icon -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 17l6-6 4 4 6-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h4>Brand‑Performance Attribution</h4>
+            <p>Track how brand recognition drives performance improvements across all channels.</p>
+          </div>
+
+          <div class="feature">
+            <div class="icon" aria-hidden="true">
+              <!-- sparkle icon -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 3l2.2 4.8L19 10l-4.8 2.2L12 17l-2.2-4.8L5 10l4.8-2.2L12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h4>Creative That Compounds</h4>
+            <p>Brand‑distinctive creative that drives conversions while building customer lifetime value.</p>
+          </div>
+
+          <div class="feature">
+            <div class="icon" aria-hidden="true">
+              <!-- shield icon -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 3l7 3v6c0 4.4-2.9 8.4-7 9.9C7.9 20.4 5 16.4 5 12V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h4>Competitive Advantage That Scales</h4>
+            <p>Build brand differentiation that makes your performance marketing more effective over time.</p>
+          </div>
+        </div>
+
+        <!-- Myths we bust -->
+        <div class="myths" aria-label="Myths we bust">
+          <span class="pill">× Brand building and performance need separate budgets</span>
+          <span class="pill">× You have to choose between creativity and conversion</span>
+          <span class="pill">× Brand impact can’t be measured</span>
+          <span class="pill">× Performance creative should be generic to maximize relevance</span>
+        </div>
+
+        <!-- Futures -->
+        <div class="futures">
+          <div class="future">
+            <div class="badge" aria-hidden="true">1</div>
+            <p>Master performance branding and build an unfair competitive advantage that compounds over time, making marketing more effective and efficient every quarter.</p>
+          </div>
+          <div class="future">
+            <div class="badge" aria-hidden="true">2</div>
+            <p>Plateau while better‑marketed competitors win.</p>
+          </div>
+          <div class="future">
+            <div class="badge" aria-hidden="true">3</div>
+            <p>Waste budget on campaigns that don't scale.</p>
+          </div>
+        </div>
+
+        <!-- CTA Band -->
+        <div class="cta-band" id="cta">
+          <h3>We help ambitious companies choose option #1. Ready to join them?</h3>
+          <p>Tell us about your goals and we’ll share the first three plays we’d run to build brand equity <em>and</em> lower CAC.</p>
+          <div class="cta-row">
+            <a class="cta" href="mailto:hello@playbookmedia.com?subject=Strategy%20Call%20—%20Playbook%20Media">Book a Strategy Call</a>
+            <a class="cta secondary" href="#problems">Explore the Problems</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =================== Footer =================== -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <div class="foot-logo">
+          <span class="brand-mark" aria-hidden="true" style="width:28px;height:28px;"></span>
+          <span><strong>Playbook Media</strong> — Performance Branding</span>
+        </div>
+        <p class="small">Boutique team. Senior operators. Outcomes measured in revenue, not impressions.</p>
+      </div>
+      <div class="small">
+        <div><strong>Contact</strong></div>
+        <div><a href="mailto:hello@playbookmedia.com">hello@playbookmedia.com</a></div>
+        <div>© <span id="year"></span> Playbook Media</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Reveal on scroll
+    const revealObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('is-visible'); revealObserver.unobserve(e.target); }
+      })
+    }, { threshold:.15 });
+    document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+
+    // Compact header on scroll (subtle)
+    const header = document.querySelector('header');
+    let lastY = 0;
+    window.addEventListener('scroll', ()=>{
+      const y = window.scrollY || window.pageYOffset;
+      if(y > 6 && y > lastY){ header.style.boxShadow = '0 8px 18px rgba(23,34,56,.08)'; }
+      else if(y <= 6){ header.style.boxShadow = 'none'; }
+      lastY = y;
+    }, { passive:true });
+  </script>
+</body>
+</html>
